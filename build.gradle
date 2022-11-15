@@ -47,7 +47,6 @@ configure([globalModule, coreModule, webModule]) {
     dependencies {
         testCompile('org.junit.jupiter:junit-jupiter-api:5.5.2')
         testCompile('org.junit.jupiter:junit-jupiter-engine:5.5.2')
-        testCompile('org.junit.vintage:junit-vintage-engine:5.5.2')
         compile 'com.squareup.okhttp3:okhttp:3.12.1'
         compile 'ch.qos.logback:logback-classic:1.2.3'
         testCompile 'org.powermock:powermock-api-mockito:1.7.4'
@@ -57,6 +56,8 @@ configure([globalModule, coreModule, webModule]) {
         compile 'commons-codec:commons-codec:1.10'
         compile 'commons-lang:commons-lang:2.6'
         compile 'com.alibaba:fastjson:2.0.17'
+
+
     }
 
     task sourceJar(type: Jar) {

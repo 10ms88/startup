@@ -1,0 +1,14 @@
+package com.company.startup.core.connector.client.utils;
+
+import okhttp3.OkHttpClient;
+
+public final class HttpClientSingleton {
+    private static final OkHttpClient httpClient = new OkHttpClient();
+
+    private HttpClientSingleton() {
+    }
+
+    public static OkHttpClient getHttpClient() {
+        return httpClient;
+    }
+}
