@@ -37,6 +37,7 @@
                 <column id="asset"/>
                 <column id="money"/>
                 <column id="action"/>
+                <column id="time"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"

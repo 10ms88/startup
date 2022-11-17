@@ -8,6 +8,7 @@ create table STARTUP_WALLET_TRADE_ACTION (
     MONEY double precision,
     ACTION_ varchar(50),
     WALLET_ID uuid not null,
+    TIME_ timestamp with time zone,
     --
     primary key (ID)
 )^

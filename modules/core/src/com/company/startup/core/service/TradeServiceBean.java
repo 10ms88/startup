@@ -33,13 +33,13 @@ public class TradeServiceBean implements TradeService {
     private AppService appService;
 
     private static final BigDecimal FEE = BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(0.001));
-    private static final BigDecimal INCREASE = BigDecimal.valueOf(1.02);
-    private static final BigDecimal DECREASE = BigDecimal.valueOf(0.98);
+    private static final BigDecimal INCREASE = BigDecimal.valueOf(1.005);
+    private static final BigDecimal DECREASE = BigDecimal.valueOf(0.995);
 
     @Override
     public void startSession() {
 
-        Wallet wallet = walletService.getWalletByID(UUID.fromString("0e7b9103-8ce0-048a-4679-d203155661dc"));
+        Wallet wallet = walletService.getWalletByID(UUID.fromString(WalletService.WALLET_ID));
 
         for (; ; ) {
             Double currentPrice = appService.getPrise(TradePair.NEARUSDT);
@@ -51,14 +51,14 @@ public class TradeServiceBean implements TradeService {
                 buy(wallet, currentPrice);
             }
 
-            wait(2000);
+            wait(30000);
 
         }
     }
 
     @Override
     public void initAction() {
-        Wallet wallet = walletService.getWalletByID(UUID.fromString("0e7b9103-8ce0-048a-4679-d203155661dc"));
+        Wallet wallet = walletService.getWalletByID(UUID.fromString(WalletService.WALLET_ID));
 
         Double currentPrice = appService.getPrise(TradePair.NEARUSDT);
 

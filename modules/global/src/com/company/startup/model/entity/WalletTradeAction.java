@@ -3,11 +3,14 @@ package com.company.startup.model.entity;
 import com.company.startup.model.constants.TradeAction;
 import com.haulmont.cuba.core.entity.BaseLongIdEntity;
 import com.haulmont.cuba.core.entity.HasUuid;
+import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@PublishEntityChangedEvents
 @Table(name = "STARTUP_WALLET_TRADE_ACTION")
 @Entity(name = "startup_WalletTradeAction")
 public class WalletTradeAction extends BaseLongIdEntity implements HasUuid {
@@ -32,6 +35,17 @@ public class WalletTradeAction extends BaseLongIdEntity implements HasUuid {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "WALLET_ID")
     private Wallet wallet;
+
+    @Column(name = "TIME_")
+    private LocalDateTime time;
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
 
     public void setAsset(Double asset) {
         this.asset = asset;

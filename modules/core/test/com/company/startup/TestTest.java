@@ -29,9 +29,8 @@ public class TestTest {
 
     @Test
     public void startTest() {
-//        tradeService.initAction();
-        walletService.create();
         tradeService.startSession();
+
 
 
     }
