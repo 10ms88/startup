@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://walletEdit.caption"
+        focusComponent="form"
+        messagesPack="com.company.startup.web.screens.wallet">
+    <data>
+        <instance id="walletDc"
+                  class="com.company.startup.model.entity.Wallet">
+            <view extends="_local"/>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="walletDc">
+            <column width="350px">
+                <textField id="moneyField" property="money"/>
+                <textField id="priceToActionField" property="priceToAction"/>
+                <textField id="assetField" property="asset"/>
+                <lookupField id="tradePairField" property="tradePair"/>
+                <lookupField id="actionStatusField" property="actionStatus"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

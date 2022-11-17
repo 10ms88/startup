@@ -16,23 +16,45 @@ public class WalletTradeAction extends BaseLongIdEntity implements HasUuid {
     @Column(name = "UUID")
     private UUID uuid;
 
+    @Column(name = "PRICE")
+    private Double currentPrice;
+
+    @Column(name = "ASSET")
+    private Double asset;
+
+    @Column(name = "MONEY")
+    private Double money;
+
+    @Column(name = "ACTION_")
+    private String action;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "WALLET_ID")
     private Wallet wallet;
 
-    @Column(name = "ACTION_")
-    private String action;
-
-    @Column(name = "PRICE")
-    private Double price;
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setAsset(Double asset) {
+        this.asset = asset;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getAsset() {
+        return asset;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
+    }
+
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public Double getCurrentPrice() {
+        return currentPrice;
     }
 
     public TradeAction getAction() {

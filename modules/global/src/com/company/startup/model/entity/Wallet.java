@@ -13,8 +13,8 @@ import javax.persistence.Table;
 public class Wallet extends StandardEntity {
     private static final long serialVersionUID = -4495874770681826704L;
 
-    @Column(name = "AMOUNT")
-    private Double amount;
+    @Column(name = "MONEY")
+    private Double money;
 
     @Column(name = "PRICE_TO_ACTION")
     private Double priceToAction;
@@ -28,12 +28,12 @@ public class Wallet extends StandardEntity {
     @Column(name = "ACTION_STATUS")
     private String actionStatus;
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
+    public void setMoney(Double money) {
+        this.money = money;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getMoney() {
+        return money;
     }
 
     public void setPriceToAction(Double priceToAction) {

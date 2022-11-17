@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service(TradeService.NAME)
 public class TradeServiceBean implements TradeService {
@@ -36,20 +33,16 @@ public class TradeServiceBean implements TradeService {
     private AppService appService;
 
     private static final BigDecimal FEE = BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(0.001));
-    private static final BigDecimal INCREASE = BigDecimal.valueOf(1.03);
-    private static final BigDecimal DECREASE = BigDecimal.valueOf(0.97);
+    private static final BigDecimal INCREASE = BigDecimal.valueOf(1.02);
+    private static final BigDecimal DECREASE = BigDecimal.valueOf(0.98);
 
     @Override
     public void startSession() {
 
         Wallet wallet = walletService.getWalletByID(UUID.fromString("0e7b9103-8ce0-048a-4679-d203155661dc"));
-//        Double currentPrice = appService.getPrise(TradePair.NEARUSDT);
 
-        List<Double> list = new ArrayList<>();
-        double currentPrice = 2.0;
-        for (int i = 0; i < 1000; i++) {
-            currentPrice = currentPrice * ThreadLocalRandom.current().nextDouble(DECREASE.doubleValue(), INCREASE.doubleValue());
-
+        for (; ; ) {
+            Double currentPrice = appService.getPrise(TradePair.NEARUSDT);
             wallet = dataManager.reload(wallet, "_local");
 
             if (wallet.getActionStatus().equals(TradeAction.SELL) && currentPrice >= wallet.getPriceToAction()) {
@@ -57,30 +50,10 @@ public class TradeServiceBean implements TradeService {
             } else if (wallet.getActionStatus().equals(TradeAction.BUY) && currentPrice <= wallet.getPriceToAction()) {
                 buy(wallet, currentPrice);
             }
-//
+
+            wait(2000);
 
         }
-        //       try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                log.error("Error", e);
-        //      }
-//
-//
-//        while (true) {
-//            if (wallet.getActionStatus().equals(TradeAction.SELL) && currentPrice >= wallet.getPriceToAction()) {
-//                sell(wallet, currentPrice);
-//            } else if (wallet.getActionStatus().equals(TradeAction.BUY) && currentPrice <= wallet.getPriceToAction()) {
-//                buy(wallet, currentPrice);
-//            }
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                log.error("Error", e);
-//            }
-//        }
-
-
     }
 
     @Override
@@ -92,10 +65,10 @@ public class TradeServiceBean implements TradeService {
         try (Transaction tx = persistence.createTransaction()) {
             WalletTradeAction walletAction = walletTradeActionDb.create(wallet);
             walletAction.setAction(wallet.getActionStatus().equals(TradeAction.BUY) ? TradeAction.SELL : TradeAction.BUY);
-            walletAction.setPrice(currentPrice);
+            walletAction.setCurrentPrice(currentPrice);
             persistence.getEntityManager().persist(walletAction);
 
-            wallet.setPriceToAction(getPriceToAction(currentPrice, wallet.getActionStatus()));
+            wallet.setPriceToAction(currentPrice);
             persistence.getEntityManager().merge(wallet);
 
             tx.commit();
@@ -105,17 +78,25 @@ public class TradeServiceBean implements TradeService {
 
     public void sell(Wallet wallet, Double currentPrice) {
         try (Transaction tx = persistence.createTransaction()) {
+
+            double money = BigDecimal.valueOf(wallet.getAsset())
+                    .multiply(BigDecimal.valueOf(currentPrice))
+                    .multiply(FEE)
+                    .setScale(3, RoundingMode.FLOOR).doubleValue();
+            double asset = BigDecimal.ZERO.doubleValue();
+
+
             WalletTradeAction walletAction = walletTradeActionDb.create(wallet);
             walletAction.setWallet(wallet);
             walletAction.setAction(TradeAction.SELL);
-            walletAction.setPrice(currentPrice);
+            walletAction.setCurrentPrice(currentPrice);
+            walletAction.setMoney(money);
+            walletAction.setAsset(asset);
             persistence.getEntityManager().persist(walletAction);
 
-            BigDecimal amount = BigDecimal.valueOf(wallet.getAsset()).multiply(BigDecimal.valueOf(currentPrice)).multiply(FEE);
-
-            wallet.setPriceToAction(getPriceToAction(currentPrice, TradeAction.SELL));
-            wallet.setAmount(amount.setScale(3, RoundingMode.FLOOR).doubleValue());
-            wallet.setAsset(BigDecimal.ZERO.doubleValue());
+            wallet.setPriceToAction(calculatePriceToAction(currentPrice, TradeAction.BUY));
+            wallet.setMoney(money);
+            wallet.setAsset(asset);
             wallet.setActionStatus(TradeAction.BUY);
 
             persistence.getEntityManager().merge(wallet);
@@ -127,19 +108,23 @@ public class TradeServiceBean implements TradeService {
 
     public void buy(Wallet wallet, Double currentPrice) {
         try (Transaction tx = persistence.createTransaction()) {
+
+            double money = BigDecimal.ZERO.doubleValue();
+            double asset = BigDecimal.valueOf(wallet.getMoney())
+                    .multiply(FEE)
+                    .divide(BigDecimal.valueOf(currentPrice), 3, RoundingMode.FLOOR).doubleValue();
+
             WalletTradeAction walletAction = walletTradeActionDb.create(wallet);
             walletAction.setWallet(wallet);
             walletAction.setAction(TradeAction.BUY);
-            walletAction.setPrice(currentPrice);
+            walletAction.setCurrentPrice(currentPrice);
+            walletAction.setMoney(money);
+            walletAction.setAsset(asset);
             persistence.getEntityManager().persist(walletAction);
 
-            BigDecimal amount = BigDecimal.valueOf(wallet.getAmount())
-                    .multiply(FEE)
-                    .divide(BigDecimal.valueOf(currentPrice), 3, RoundingMode.FLOOR);
-
-            wallet.setPriceToAction(getPriceToAction(currentPrice, TradeAction.BUY));
-            wallet.setAmount(amount.doubleValue());
-            wallet.setAsset(BigDecimal.ZERO.doubleValue());
+            wallet.setPriceToAction(calculatePriceToAction(currentPrice, TradeAction.SELL));
+            wallet.setMoney(money);
+            wallet.setAsset(asset);
             wallet.setActionStatus(TradeAction.SELL);
             persistence.getEntityManager().merge(wallet);
 
@@ -148,7 +133,7 @@ public class TradeServiceBean implements TradeService {
         }
     }
 
-    double getPriceToAction(double currentPrice, TradeAction action) {
+    double calculatePriceToAction(double currentPrice, TradeAction action) {
         BigDecimal priceToAction;
         if (action.equals(TradeAction.SELL)) {
             priceToAction = new BigDecimal(currentPrice).multiply(new BigDecimal(String.valueOf(INCREASE)));
@@ -156,5 +141,13 @@ public class TradeServiceBean implements TradeService {
             priceToAction = new BigDecimal(currentPrice).multiply(new BigDecimal(String.valueOf(DECREASE)));
         }
         return priceToAction.setScale(3, RoundingMode.FLOOR).doubleValue();
+    }
+
+    void wait(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            log.error("Error", e);
+        }
     }
 }

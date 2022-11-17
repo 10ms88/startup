@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://walletBrowse.caption"
+        focusComponent="walletsTable"
+        messagesPack="com.company.startup.web.screens.wallet">
+    <data readOnly="true">
+        <collection id="walletsDc"
+                    class="com.company.startup.model.entity.Wallet">
+            <view extends="_local"/>
+            <loader id="walletsDl">
+                <query>
+                    <![CDATA[select e from startup_Wallet e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="walletsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="walletsTable"
+                dataLoader="walletsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="walletsTable"
+                    width="100%"
+                    dataContainer="walletsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+                <action id="refresh" type="refresh"/>
+            </actions>
+            <columns>
+                <column id="money"/>
+                <column id="priceToAction"/>
+                <column id="asset"/>
+                <column id="tradePair"/>
+                <column id="actionStatus"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="walletsTable.create"/>
+                <button id="editBtn" action="walletsTable.edit"/>
+                <button id="removeBtn" action="walletsTable.remove"/>
+                <button id="refreshBtn" action="walletsTable.refresh"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

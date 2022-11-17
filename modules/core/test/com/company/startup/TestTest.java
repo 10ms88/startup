@@ -3,15 +3,10 @@ package com.company.startup;
 import com.company.startup.core.db.WalletTradeActionDb;
 import com.company.startup.core.service.TradeService;
 import com.company.startup.core.service.WalletService;
-import com.company.startup.model.entity.Wallet;
-import com.company.startup.model.entity.WalletTradeAction;
 import com.haulmont.cuba.core.global.AppBeans;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-
-import java.util.List;
-import java.util.UUID;
 
 public class TestTest {
 
@@ -34,6 +29,8 @@ public class TestTest {
 
     @Test
     public void startTest() {
+//        tradeService.initAction();
+        walletService.create();
         tradeService.startSession();
 
 

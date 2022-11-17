@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
     <menu id="application-startup" insertBefore="administration" caption="mainMsg://menu_config.application-startup">
+        <item screen="startup_Wallet.browse" caption="mainMsg://menu_config.startup_Wallet.browse"/>
+        <item screen="startup_WalletTradeAction.browse"
+              caption="mainMsg://menu_config.startup_WalletTradeAction.browse"/>
     </menu>
 </menu-config>

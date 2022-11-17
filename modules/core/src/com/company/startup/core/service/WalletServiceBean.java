@@ -1,11 +1,9 @@
 package com.company.startup.core.service;
 
-import com.company.startup.core.db.WalletTradeActionDb;
 import com.company.startup.model.constants.Symbol;
 import com.company.startup.model.constants.TradeAction;
 import com.company.startup.model.constants.TradePair;
 import com.company.startup.model.entity.Wallet;
-import com.company.startup.model.entity.WalletTradeAction;
 import com.haulmont.cuba.core.EntityManager;
 import com.haulmont.cuba.core.Persistence;
 import com.haulmont.cuba.core.Transaction;
@@ -45,7 +43,7 @@ public class WalletServiceBean implements WalletService {
             wallet.setActionStatus(action);
             wallet.setTradePair(TradePair.NEARUSDT);
             wallet.setAsset(assetNEAR);
-            wallet.setAmount(assetUSDT);
+            wallet.setMoney(assetUSDT);
             entityManager.persist(wallet);
             tx.commit();
         }

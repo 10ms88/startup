@@ -3,7 +3,7 @@
 
     <view entity="startup_WalletTradeAction" name="walletTradeAction-view" extends="_local">
         <property name="wallet" view="_minimal">
-            <property name="amount"/>
+            <property name="money"/>
             <property name="priceToAction"/>
             <property name="asset"/>
             <property name="tradePair"/>

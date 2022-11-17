@@ -3,9 +3,11 @@ create table STARTUP_WALLET_TRADE_ACTION (
     ID bigint,
     UUID uuid,
     --
-    WALLET_ID uuid not null,
-    ACTION_ varchar(50),
     PRICE double precision,
+    ASSET double precision,
+    MONEY double precision,
+    ACTION_ varchar(50),
+    WALLET_ID uuid not null,
     --
     primary key (ID)
 )^
@@ -21,7 +23,7 @@ create table STARTUP_WALLET (
     DELETE_TS timestamp,
     DELETED_BY varchar(50),
     --
-    AMOUNT double precision,
+    MONEY double precision,
     PRICE_TO_ACTION double precision,
     ASSET double precision,
     TRADE_PAIR varchar(50),
