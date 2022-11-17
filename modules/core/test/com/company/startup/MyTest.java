@@ -1,19 +1,11 @@
 package com.company.startup;
 
-import com.company.startup.core.connector.client.enums.DefaultUrls;
-import com.company.startup.core.connector.client.impl.SpotClientImpl;
-import com.company.startup.core.connector.client.impl.WebsocketClientImpl;
-import com.company.startup.examples.PrivateConfig;
 import org.json.JSONArray;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.LinkedHashMap;
 
 public class MyTest {
 
@@ -28,13 +20,8 @@ public class MyTest {
     private static final String BUY = "buy";
 
     public static void main(String[] args) {
-        LinkedHashMap<String, Object> parameters = new LinkedHashMap<>();
 
-        SpotClientImpl client = new SpotClientImpl();
 
-        parameters.put("symbol", "NEARUSDT");
-        String result = client.createMarket().averagePrice(parameters);
-        System.out.println(result);
     }
 
     private static void sell(BigDecimal currentPrice) {

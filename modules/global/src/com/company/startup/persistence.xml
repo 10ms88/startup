@@ -2,6 +2,7 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
     <persistence-unit name="startup" transaction-type="RESOURCE_LOCAL">
 
-        <class>com.company.startup.model.Price</class>
+        <class>com.company.startup.model.entity.Wallet</class>
+        <class>com.company.startup.model.entity.WalletTradeAction</class>
     </persistence-unit>
 </persistence>
