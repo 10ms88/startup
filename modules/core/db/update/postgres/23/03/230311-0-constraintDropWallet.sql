@@ -1,0 +1,1 @@
+alter table startup_wallet_trade_action drop constraint FK_STARTUP_WALLET_TRADE_ACTION_ON_WALLET ;

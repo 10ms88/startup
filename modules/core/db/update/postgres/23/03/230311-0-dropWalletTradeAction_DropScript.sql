@@ -1,0 +1,1 @@
+drop table if exists STARTUP_WALLET_TRADE_ACTION__U45000 cascade ;

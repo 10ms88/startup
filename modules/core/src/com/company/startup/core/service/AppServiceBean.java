@@ -19,9 +19,8 @@ public class AppServiceBean implements AppService {
 
     @Override
     public String getPriseInfo(String symbol) {
-        return sendPriceRequest(symbol);
+              return new JSONObject(sendPriceRequest(symbol)).getString("price");
     }
-
     @Override
     public String getAssetInfo(String asset) {
         return sendAssetRequest(asset);

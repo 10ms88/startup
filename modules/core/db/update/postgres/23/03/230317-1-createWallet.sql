@@ -1,19 +1,3 @@
--- begin STARTUP_WALLET_TRADE_ACTION
-create table STARTUP_WALLET_TRADE_ACTION (
-    ID bigint,
-    UUID uuid,
-    --
-    PRICE double precision,
-    ASSET double precision,
-    MONEY double precision,
-    ACTION_ varchar(50),
-    WALLET_ID uuid not null,
-    TIME_ timestamp,
-    --
-    primary key (ID)
-)^
--- end STARTUP_WALLET_TRADE_ACTION
--- begin STARTUP_WALLET
 create table STARTUP_WALLET (
     ID uuid,
     VERSION integer not null,
@@ -31,5 +15,4 @@ create table STARTUP_WALLET (
     ACTION_STATUS varchar(50),
     --
     primary key (ID)
-)^
--- end STARTUP_WALLET
+);

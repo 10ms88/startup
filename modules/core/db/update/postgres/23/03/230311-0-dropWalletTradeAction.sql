@@ -1,0 +1,1 @@
+alter table startup_wallet_trade_action rename to STARTUP_WALLET_TRADE_ACTION__U45000 ;

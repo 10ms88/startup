@@ -1,0 +1,1 @@
+drop table if exists STARTUP_WALLET__U20878 cascade ;

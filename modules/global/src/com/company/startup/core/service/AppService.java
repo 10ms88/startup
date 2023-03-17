@@ -5,7 +5,7 @@ import com.company.startup.model.constants.TradePair;
 
 public interface AppService {
 
-    String NAME = "st_PriceService";
+    String NAME = "st_AppService";
 
     String getPriseInfo(String symbol);
 
