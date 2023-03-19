@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface WalletService {
     String NAME = "st_WalletService";
-    String WALLET_ID = "ebac358a-9881-1a99-a5e3-2595ff46ec8a";
+    String WALLET_ID = "fffe6167-b776-cac1-9170-765c9775d98a";
 
     void create();
 

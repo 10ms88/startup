@@ -1,0 +1,1 @@
+drop table if exists STARTUP_SESSION__U62836 cascade ;

@@ -1,0 +1,1 @@
+drop table if exists STARTUP_STRATEGY__U43997 cascade ;

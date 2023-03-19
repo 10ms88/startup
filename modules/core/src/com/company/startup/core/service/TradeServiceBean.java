@@ -3,6 +3,7 @@ package com.company.startup.core.service;
 import com.company.startup.core.db.WalletTradeActionDb;
 import com.company.startup.model.constants.TradeAction;
 import com.company.startup.model.constants.TradePair;
+import com.company.startup.model.entity.PriceHistory;
 import com.company.startup.model.entity.Wallet;
 import com.company.startup.model.entity.WalletTradeAction;
 import com.haulmont.cuba.core.Persistence;
@@ -10,10 +11,12 @@ import com.haulmont.cuba.core.Transaction;
 import com.haulmont.cuba.core.global.DataManager;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.UUID;
 
 @Service(TradeService.NAME)
@@ -28,32 +31,67 @@ public class TradeServiceBean implements TradeService {
     private Persistence persistence;
     @Inject
     private DataManager dataManager;
-
+    @Inject
+    private PriceService priceService;
     @Inject
     private AppService appService;
 
     private static final BigDecimal FEE = BigDecimal.valueOf(1).subtract(BigDecimal.valueOf(0.001));
     private static final BigDecimal INCREASE = BigDecimal.valueOf(1.005);
-    private static final BigDecimal DECREASE = BigDecimal.valueOf(0.995);
+    private static final BigDecimal DECREASE = BigDecimal.valueOf(0.97);
 
+    @Transactional
     @Override
     public void startSession() {
 
+
         Wallet wallet = walletService.getWalletByID(UUID.fromString(WalletService.WALLET_ID));
 
-        for (; ; ) {
-            Double currentPrice = appService.getPrise(TradePair.NEARUSDT);
+        double initBalance = 100.0;
+        double aimBalance = initBalance * 1.10;
+        double totalProfit = 0.0;
+        double sessionBalance = 0.0;
+
+        wallet.setMoney(100.0);
+        wallet.setAsset(0.0);
+
+        double firstBuy = wallet.getMoney() * 0.6;
+        double nextBuy = (wallet.getMoney() - firstBuy) * 0.25;
+
+        List<PriceHistory> priceHistories = priceService.getPriceList();
+
+        boolean initialBuy = false;
+        dataManager.commit(wallet);
+        for (int i = 0; i < priceHistories.size(); i++) {
             wallet = dataManager.reload(wallet, "_local");
+            Double currentPrice = priceHistories.get(i).getPrice();
 
-            if (wallet.getActionStatus().equals(TradeAction.SELL) && currentPrice >= wallet.getPriceToAction()) {
-                sell(wallet, currentPrice);
-            } else if (wallet.getActionStatus().equals(TradeAction.BUY) && currentPrice <= wallet.getPriceToAction()) {
-                buy(wallet, currentPrice);
+            if (i == 0 || initialBuy) {
+                buyWithAmount(wallet, currentPrice, firstBuy);
+                initialBuy = false;
+            } else {
+                wallet = dataManager.reload(wallet, "_local");
+                double balance = wallet.getMoney() + wallet.getAsset() * currentPrice;
+
+                if (balance >= aimBalance) {
+                    sellAsset(wallet, currentPrice);
+                    double profit = balance - initBalance;
+                    totalProfit = totalProfit + profit;
+                    wallet = dataManager.reload(wallet, "_local");
+                    wallet.setMoney(initBalance);
+                    dataManager.commit(wallet);
+                    initialBuy = true;
+
+                } else {
+                    if (currentPrice <= wallet.getPriceToAction() && wallet.getMoney() > nextBuy)
+                        buyWithAmount(wallet, currentPrice, nextBuy);
+                }
             }
-
-            wait(30000);
-
         }
+
+        double money = sessionBalance + totalProfit;
+
+        System.out.println(totalProfit);
     }
 
     @Override
@@ -98,6 +136,60 @@ public class TradeServiceBean implements TradeService {
             wallet.setMoney(money);
             wallet.setAsset(asset);
             wallet.setActionStatus(TradeAction.BUY);
+
+            persistence.getEntityManager().merge(wallet);
+
+            tx.commit();
+
+        }
+    }
+
+    public void sellAsset(Wallet wallet, Double currentPrice) {
+        try (Transaction tx = persistence.createTransaction()) {
+
+            double money = wallet.getMoney() + BigDecimal.valueOf(wallet.getAsset())
+                    .multiply(BigDecimal.valueOf(currentPrice))
+                    .multiply(FEE)
+                    .setScale(3, RoundingMode.FLOOR).doubleValue();
+            double asset = BigDecimal.ZERO.doubleValue();
+
+
+            WalletTradeAction walletAction = walletTradeActionDb.create(wallet);
+            walletAction.setWallet(wallet);
+            walletAction.setAction(TradeAction.SELL);
+            walletAction.setCurrentPrice(currentPrice);
+            walletAction.setMoney(money);
+            walletAction.setAsset(asset);
+            persistence.getEntityManager().persist(walletAction);
+
+            wallet.setMoney(money);
+            wallet.setAsset(asset);
+
+            persistence.getEntityManager().merge(wallet);
+
+            tx.commit();
+        }
+    }
+
+    public void buyWithAmount(Wallet wallet, Double currentPrice, Double amount) {
+        try (Transaction tx = persistence.createTransaction()) {
+
+            double money = wallet.getMoney() - amount;
+            double asset = wallet.getAsset() + BigDecimal.valueOf(amount)
+                    .multiply(FEE)
+                    .divide(BigDecimal.valueOf(currentPrice), 3, RoundingMode.FLOOR).doubleValue();
+
+            WalletTradeAction walletAction = walletTradeActionDb.create(wallet);
+            walletAction.setWallet(wallet);
+            walletAction.setAction(TradeAction.BUY);
+            walletAction.setCurrentPrice(currentPrice);
+            walletAction.setMoney(money);
+            walletAction.setAsset(asset);
+            persistence.getEntityManager().persist(walletAction);
+
+            wallet.setPriceToAction(currentPrice * 0.85);
+            wallet.setMoney(money);
+            wallet.setAsset(asset);
 
             persistence.getEntityManager().merge(wallet);
 

@@ -300,7 +300,7 @@ public class Market {
      * @see <a href="https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker">
      *     https://binance-docs.github.io/apidocs/spot/en/#symbol-price-ticker</a>
      */
-    public String tickerSymbol(LinkedHashMap<String, Object> parameters) {
+    public String  tickerSymbol(LinkedHashMap<String, Object> parameters) {
         if (parameters.containsKey("symbol") && parameters.containsKey("symbols")) {
             throw new BinanceConnectorException("symbol and symbols cannot be sent together.");
         }

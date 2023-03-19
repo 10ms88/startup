@@ -7,12 +7,14 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 @Table(name = "STARTUP_WALLET")
 @Entity(name = "startup_Wallet")
 public class Wallet extends StandardEntity {
     private static final long serialVersionUID = -4495874770681826704L;
 
+    @Version
     @Column(name = "MONEY")
     private Double money;
 

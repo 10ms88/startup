@@ -4,5 +4,6 @@
 
         <class>com.company.startup.model.entity.Wallet</class>
         <class>com.company.startup.model.entity.WalletTradeAction</class>
+        <class>com.company.startup.model.entity.PriceHistory</class>
     </persistence-unit>
 </persistence>

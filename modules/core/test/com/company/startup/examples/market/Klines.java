@@ -3,6 +3,8 @@ package com.company.startup.examples.market;
 import com.company.startup.core.connector.client.impl.SpotClientImpl;
 import com.company.startup.examples.PrivateConfig;
 import java.util.LinkedHashMap;
+
+import com.company.startup.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +38,12 @@ public final class Klines {
         SpotClientImpl client = new SpotClientImpl(PrivateConfig.API_KEY, PrivateConfig.SECRET_KEY);
 
         parameters.put("symbol", "NEARUSDT");
-        parameters.put("interval", "1h");
-        parameters.put("limit", "100000");
+        parameters.put("interval", "1m");
+        parameters.put("limit", "1000");
+
+        long ts = System.currentTimeMillis()/1000;
+        parameters.put("startTime", 1675209600000L);
+
         String result = client.createMarket().klines(parameters);
         logger.info(result);
     }

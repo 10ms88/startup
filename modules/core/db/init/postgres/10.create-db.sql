@@ -33,3 +33,16 @@ create table STARTUP_WALLET (
     primary key (ID)
 )^
 -- end STARTUP_WALLET
+-- begin PRICE_HISTORY
+create table PRICE_HISTORY (
+    ID bigint,
+    UUID uuid,
+    --
+    TS bigint,
+    SYMBOL varchar(255),
+    PRICE double precision,
+    DATE_ timestamp,
+    --
+    primary key (ID)
+)^
+-- end PRICE_HISTORY
