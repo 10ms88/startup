@@ -5,7 +5,6 @@
 package com.company.startup.core.service.telegram;
 
 import com.company.startup.core.service.AppService;
-import com.company.startup.model.constants.Symbol;
 import com.company.startup.model.constants.TelegramConfig;
 import com.haulmont.cuba.core.sys.AppContext;
 import com.haulmont.cuba.core.sys.SecurityContext;
@@ -29,6 +28,8 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Optional;
 
 
@@ -100,6 +101,11 @@ public class TelegramBotBean extends TelegramLongPollingBot {
                     sendMessage(getText(message, true), message.getChatId());
                     return;
                 }
+                if ("/buyTL".equals(command)) {
+                    sendMessage(buyTL(), message.getChatId());
+                    return;
+                }
+
             }
         }
 
@@ -116,7 +122,7 @@ public class TelegramBotBean extends TelegramLongPollingBot {
     private String getText(Message message, boolean isCommand) {
         if (isCommand) return SUCCESS_MESSAGE;
 
-        return String.format("1 %s = %s %s", message.getText(), appService.getPriseInfo(message.getText() + Symbol.USDT.getId()), Symbol.USDT.getId());
+        return appService.getPriseInfo(message.getText());
 
     }
 
@@ -148,6 +154,19 @@ public class TelegramBotBean extends TelegramLongPollingBot {
     private boolean checkUserSessions(SecurityContext securityContext) {
         return securityContext != null
                 && userSessionsAPI.get(securityContext.getSessionId()) != null;
+    }
+
+    private String buyTL() {
+
+
+        BigDecimal USDTTRY = new BigDecimal(appService.getPriseInfo("USDTTRY"));
+        BigDecimal USDTRUB = new BigDecimal(appService.getPriseInfo("USDTRUB"));
+
+        BigDecimal buyPrice = USDTRUB.divide(USDTTRY, 2, RoundingMode.CEILING).multiply(BigDecimal.valueOf(1.01)).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal sellPrice = USDTRUB.divide(USDTTRY, 2, RoundingMode.CEILING).multiply(BigDecimal.valueOf(0.99)).setScale(2, RoundingMode.HALF_UP);
+
+
+        return "USDT/TRY: " + USDTTRY + "\nUSDT/RUB: " + USDTRUB + "\nbuy: " + buyPrice.toString() + "\nsell: " + sellPrice.toString();
     }
 
 }
