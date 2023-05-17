@@ -194,3 +194,8 @@ task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefi
 }
 restart.finalizedBy start
 
+task buildUberJar(type: CubaUberJarBuilding) {
+    webPort = 9090
+    singleJar = true
+    appProperties = ['cuba.automaticDatabaseUpdate': true]
+}

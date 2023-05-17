@@ -122,7 +122,7 @@ public class TelegramBotBean extends TelegramLongPollingBot {
     private String getText(Message message, boolean isCommand) {
         if (isCommand) return SUCCESS_MESSAGE;
 
-        return appService.getPriseInfo(message.getText());
+        return appService.getPriseInfo(message.getText().toUpperCase());
 
     }
 
@@ -162,11 +162,22 @@ public class TelegramBotBean extends TelegramLongPollingBot {
         BigDecimal USDTTRY = new BigDecimal(appService.getPriseInfo("USDTTRY"));
         BigDecimal USDTRUB = new BigDecimal(appService.getPriseInfo("USDTRUB"));
 
-        BigDecimal buyPrice = USDTRUB.divide(USDTTRY, 2, RoundingMode.CEILING).multiply(BigDecimal.valueOf(1.01)).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal sellPrice = USDTRUB.divide(USDTTRY, 2, RoundingMode.CEILING).multiply(BigDecimal.valueOf(0.99)).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal buyWithCommissionUSDTTRY = USDTTRY.multiply(BigDecimal.valueOf(0.99));
+        BigDecimal buyWithCommissionUSDTRUB = USDTRUB.multiply(BigDecimal.valueOf(1.01));
+
+        BigDecimal sellWithCommissionUSDTTRY = USDTTRY.multiply(BigDecimal.valueOf(1.01));
+        BigDecimal sellWithCommissionUSDTRUB = USDTRUB.multiply(BigDecimal.valueOf(0.99));
 
 
-        return "USDT/TRY: " + USDTTRY + "\nUSDT/RUB: " + USDTRUB + "\nbuy: " + buyPrice.toString() + "\nsell: " + sellPrice.toString();
+        BigDecimal buyPrice = USDTRUB.divide(USDTTRY, 2, RoundingMode.CEILING).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal withCommissionBuyPrice = buyWithCommissionUSDTRUB.divide(buyWithCommissionUSDTTRY, 2, RoundingMode.CEILING).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal withCommissionSellPrice = sellWithCommissionUSDTRUB.divide(sellWithCommissionUSDTTRY, 2, RoundingMode.CEILING).setScale(2, RoundingMode.HALF_UP);
+
+        return "USDT/TRY: " + USDTTRY +
+                "\nUSDT/RUB: " + USDTRUB +
+                "\nPrice: " + buyPrice.toString() +
+                "\nbuyPrice: " + withCommissionBuyPrice.toString() +
+                "\nsellPrice: " + withCommissionSellPrice.toString();
     }
 
 }
