@@ -195,7 +195,25 @@ task restart(dependsOn: ['stop', ":${modulePrefix}-core:deploy", ":${modulePrefi
 restart.finalizedBy start
 
 task buildUberJar(type: CubaUberJarBuilding) {
+    logbackConfigurationFile = 'etc/uber-jar-logback.xml'
+    singleJar = true
+    appProperties = ['cuba.automaticDatabaseUpdate': true]
+}
+task buildUberJar(type: CubaUberJarBuilding) {
     webPort = 9090
     singleJar = true
     appProperties = ['cuba.automaticDatabaseUpdate': true]
 }
+
+//lemon
+//cruise
+//weather
+//runway
+//grit
+//spoon
+//news
+//impose
+//chronic
+//squirrel
+//recall
+//notice
