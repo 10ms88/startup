@@ -97,6 +97,8 @@ configure(globalModule) {
             runtime('javax.xml.bind:jaxb-api:2.3.1')
             runtime('org.glassfish.jaxb:jaxb-runtime:2.3.1')
         }
+        compile 'com.mashape.unirest:unirest-java:1.4.9'
+
     }
 
     entitiesEnhancing {
@@ -199,7 +201,7 @@ task buildUberJar(type: CubaUberJarBuilding) {
     singleJar = true
     appProperties = ['cuba.automaticDatabaseUpdate': true]
 }
-task buildUberJar(type: CubaUberJarBuilding) {
+task buildUberJar_(type: CubaUberJarBuilding) {
     webPort = 9090
     singleJar = true
     appProperties = ['cuba.automaticDatabaseUpdate': true]

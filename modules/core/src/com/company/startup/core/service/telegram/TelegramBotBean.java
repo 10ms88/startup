@@ -1,10 +1,7 @@
-/*
- * Sergey support
- */
-
 package com.company.startup.core.service.telegram;
 
 import com.company.startup.core.service.AppService;
+import com.company.startup.core.service.WbService;
 import com.company.startup.model.constants.TelegramConfig;
 import com.haulmont.cuba.core.sys.AppContext;
 import com.haulmont.cuba.core.sys.SecurityContext;
@@ -39,6 +36,8 @@ public class TelegramBotBean extends TelegramLongPollingBot {
     @Inject
     private AppService appService;
     @Inject
+    private WbService wbService;
+    @Inject
     private AuthenticationManager authenticationManager;
     @Inject
     private UserSessionsAPI userSessionsAPI;
@@ -55,6 +54,11 @@ public class TelegramBotBean extends TelegramLongPollingBot {
     private static String login;
     private static String password;
     private static int attemptLimit;
+    private static String START = "/start";
+    private static String BUY = "/buyTL";
+    private static String STAT = "/getStat";
+    private static String ORDERS = "/getOrders";
+    private static String STOCKS = "/getStocks";
 
 
     @PostConstruct
@@ -97,15 +101,22 @@ public class TelegramBotBean extends TelegramLongPollingBot {
             if (commandEntity.isPresent()) {
                 String command = message.getText()
                         .substring(commandEntity.get().getOffset(), commandEntity.get().getLength());
-                if ("/start".equals(command)) {
+                if (START.equals(command)) {
                     sendMessage(getText(message, true), message.getChatId());
                     return;
                 }
-                if ("/buyTL".equals(command)) {
-                    sendMessage(buyTL(), message.getChatId());
+                if (STAT.equals(command)) {
+                    sendMessage(getWbStat(), message.getChatId());
                     return;
                 }
-
+                if (ORDERS.equals(command)) {
+                    sendMessage(getOrders(), message.getChatId());
+                    return;
+                }
+                if (STOCKS.equals(command)) {
+                    sendMessage(wbService.getStocks(), message.getChatId());
+                    return;
+                }
             }
         }
 
@@ -114,9 +125,19 @@ public class TelegramBotBean extends TelegramLongPollingBot {
                 sendMessage(getText(message, false), message.getChatId());
             } catch (Exception e) {
                 log.error("TelegramBotBean.handleMessage error: " + e.getMessage());
-                sendMessage("Некорректно введены данные", message.getChatId());
+                sendMessage("Некорректно введены данные, доступные команды\n"
+                                + START + "\n" + STAT + "\n" + ORDERS + "\n" + STOCKS
+                        , message.getChatId());
             }
         }
+    }
+
+    private String getOrders() {
+        return wbService.getOrders();
+    }
+
+    private String getWbStat() {
+        return wbService.getStatistic();
     }
 
     private String getText(Message message, boolean isCommand) {

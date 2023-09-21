@@ -1,0 +1,76 @@
+Manifest-Version: 1.0
+Main-Class: 
+Class-Path: guava-31.1-jre.jar annotations-13.0.jar fastjson-2.0.17.jar 
+ postgresql-42.2.9.jar jakarta.validation-api-2.0.2.jar powermock-api-mo
+ ckito-common-1.7.4.jar org.eclipse.persistence.jpa-2.7.3-19-cuba.jar jb
+ crypt-0.4.jar spring-jcl-5.3.23.jar org.eclipse.persistence.asm-2.7.3-1
+ 9-cuba.jar owasp-java-html-sanitizer-20211018.1.jar restapi-global-7.2.
+ 6.jar telegrambots-meta-6.1.0.jar commons-codec-1.14.jar mxparser-1.2.1
+ .jar kotlin-stdlib-1.4.10.jar org.eclipse.persistence.oracle-2.7.3.jar 
+ commons-collections4-4.4.jar hk2-api-2.6.1.jar commons-compress-1.21.ja
+ r grizzly-http-server-2.4.4.jar junit-platform-commons-1.5.2.jar log4j-
+ over-slf4j-1.7.29.jar cuba-client-7.2.20.jar groovy-2.5.14.jar groovy-t
+ emplates-2.5.14.jar org.eclipse.persistence.core-2.7.3-19-cuba.jar spri
+ ng-webmvc-5.3.23.jar spring-security-web-5.5.8.jar jsoup-1.14.3.jar fas
+ tjson2-extension-2.0.17.jar cuba-shared-lib-7.2.20.jar jackson-annotati
+ ons-2.13.2.jar swagger-models-1.5.21.jar powermock-api-support-1.7.4.ja
+ r jboss-logging-3.3.2.Final.jar logging-interceptor-4.9.0.jar freemarke
+ r-2.3.29.jar commons-dbcp2-2.7.0.jar spring-security-config-5.5.8.jar j
+ son-20220320.jar cuba-core-tests-7.2.20.jar commons-lang-2.6.jar hk2-ut
+ ils-2.6.1.jar spring-aop-5.3.23.jar powermock-module-junit4-common-1.7.
+ 4.jar jquery-file-upload-9.22.0.cuba.0.jar swagger-annotations-1.5.21.j
+ ar unirest-java-1.4.9.jar httpcore-4.4.13.jar jersey-media-json-jackson
+ -2.35.jar opentest4j-1.2.0.jar cuba-global-7.2.20.jar jersey-client-2.3
+ 5.jar jackson-dataformat-yaml-2.10.1.jar groovy-xml-2.5.14.jar jquery-u
+ i-1.13.0.jar javax.persistence-2.2.1.jar cuba-png-icons-1.0.1.jar jerse
+ y-server-2.35.jar aopalliance-repackaged-2.6.1.jar hk2-locator-2.6.1.ja
+ r slf4j-api-1.7.36.jar httpclient-4.5.13.jar error_prone_annotations-2.
+ 11.0.jar hamcrest-core-1.3.jar jquery-3.3.1.jar xstream-1.4.17.jar poi-
+ ooxml-schemas-4.1.1.jar poi-ooxml-4.1.1.jar junit-vintage-engine-5.5.2.
+ jar kotlin-stdlib-jdk7-1.4.10.jar gentyref-1.2.0.vaadin1.jar gson-2.8.6
+ .jar xmlbeans-3.1.0.jar antlr-runtime-3.5.2.jar cuba-client-tests-7.2.0
+ .jar jakarta.el-3.0.4.jar commons-lang3-3.12.0.jar cuba-client-tests-7.
+ 2.20.jar mockito-core-2.8.9.jar javax.annotation-api-1.3.2.jar commons-
+ logging-1.2.jar j2objc-annotations-1.3.jar logback-classic-1.2.3.jar or
+ g.eclipse.persistence.jpa.jpql-2.7.3.jar snakeyaml-1.24.jar restapi-cor
+ e-7.2.6.jar grizzly-http-2.4.4.jar dom4j-2.1.3.jar jersey-common-2.35.j
+ ar gwt-elemental-2.8.2.vaadin2.jar vaadin-compatibility-shared-8.14.3-1
+ -cuba.jar kotlin-stdlib-jdk8-1.4.10.jar apiguardian-api-1.1.0.jar sprin
+ g-tx-5.3.23.jar grizzly-framework-2.4.4.jar jakarta.annotation-api-1.3.
+ 5.jar vaadin-push-8.14.3-1-cuba.jar byte-buddy-agent-1.6.14.jar jakarta
+ .ws.rs-api-2.1.6.jar powermock-api-mockito-1.7.4.jar jsr305-3.0.2.jar g
+ roovy-sql-2.5.14.jar spring-context-support-5.3.23.jar poi-4.1.1.jar sp
+ ring-beans-5.3.23.jar failureaccess-1.0.1.jar cuba-web-toolkit-7.2.20-c
+ lient.jar xmlpull-1.1.3.1.jar osgi-resource-locator-1.0.3.jar commons-t
+ ext-1.10.0.jar commons-pool2-2.7.0.jar httpmime-4.5.13.jar cuba-core-7.
+ 2.20.jar spring-security-oauth2-2.5.1.RELEASE.jar spring-security-core-
+ 5.5.8.jar spring-context-5.3.23.jar kotlin-stdlib-common-1.4.10.jar jac
+ kson-module-jaxb-annotations-2.13.2.jar perf4j-0.9.16.jar jackson-jaxrs
+ -json-provider-2.13.2.jar jersey-entity-filtering-2.35.jar jakarta.acti
+ vation-api-1.2.2.jar powermock-module-junit4-1.7.4.jar byte-buddy-1.6.1
+ 4.jar httpcore-nio-4.4.4.jar listenablefuture-9999.0-empty-to-avoid-con
+ flict-with-guava.jar spring-security-crypto-5.5.8.jar jackson-jaxrs-bas
+ e-2.13.2.jar spring-jdbc-5.3.23.jar spring-ldap-core-2.3.8.RELEASE.jar 
+ aspectjweaver-1.9.4.jar HikariCP-3.4.1.jar aspectjrt-1.9.4.jar jsoup-1.
+ 12.1.jar kryo-serializers-0.45.jar xml-apis-1.4.01.jar hibernate-valida
+ tor-6.1.5.Final.jar commons-fileupload-1.4.jar powermock-core-1.7.4.jar
+  vaadin-server-8.14.3-1-cuba.jar restapi-web-7.2.6.jar kryo-shaded-4.0.
+ 2.jar jakarta.inject-2.6.1.jar fastjson2-2.0.17.jar restapi-rest-api-7.
+ 2.6.jar commons-cli-1.4.jar junit-jupiter-engine-5.5.2.jar classmate-1.
+ 3.4.jar minlog-1.3.0.jar cuba-web-tests-7.2.20.jar commons-math3-3.6.1.
+ jar jgroups-4.1.8.Final.jar activation-1.1.1.jar spring-expression-5.3.
+ 23.jar antlr-2.7.7.jar vaadin-compatibility-server-8.14.3-1-cuba.jar co
+ mmons-codec-1.13.jar diff-match-patch-0.1.cuba.1.jar okio-2.8.0.jar cub
+ a-gui-7.2.20.jar org.eclipse.persistence.antlr-2.7.3.jar checker-qual-3
+ .12.0.jar javax.inject-1.jar cuba-web-7.2.20.jar commons-io-2.11.0.jar 
+ telegrambots-6.1.0.jar jakarta.xml.bind-api-2.3.3.jar spring-orm-5.3.23
+ .jar junit-4.12.jar spring-core-5.3.23.jar javax.json-api-1.1.2.jar ace
+ -builds-1.1.9-1-cuba.jar javax.servlet-api-3.1.0.jar javax.mail-1.6.2.j
+ ar httpasyncclient-4.1.1.jar curvesapi-1.06.jar logback-core-1.2.3.jar 
+ jersey-container-grizzly2-http-2.35.jar objenesis-2.5.1.jar cuba-web-wi
+ dgets-7.2.20.jar javassist-3.25.0-GA.jar vaadin-shared-8.14.3-1-cuba.ja
+ r object-fit-images-3.2.3.jar jackson-databind-2.13.2.2.jar spring-web-
+ 5.3.23.jar atmosphere-runtime-2.4.30-1-cuba.jar junit-jupiter-api-5.5.2
+ .jar powermock-reflect-1.7.4.jar okhttp-4.9.0.jar jersey-hk2-2.35.jar j
+ mockit-1.48.jar junit-platform-engine-1.5.2.jar jackson-core-2.13.2.jar
+

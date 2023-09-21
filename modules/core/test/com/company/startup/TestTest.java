@@ -1,8 +1,7 @@
 package com.company.startup;
 
 import com.company.startup.core.service.PriceService;
-import com.company.startup.core.service.TradeService;
-import com.company.startup.model.constants.TradePair;
+import com.company.startup.core.service.WbService;
 import com.haulmont.cuba.core.global.AppBeans;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -15,20 +14,19 @@ public class TestTest {
 
 
     private PriceService priceService;
-    private TradeService tradeService;
+    private WbService wbService;
+
     @Before
-    public void setUp()  {
-        priceService = AppBeans.get(PriceService.class);
-        tradeService = AppBeans.get(TradeService.class);
+    public void setUp() {
+        wbService = AppBeans.get(WbService.class);
+
 
     }
 
 
     @Test
     public void startTest() {
-        tradeService.startSession();
-//        priceService.collectPriceHistory(30,"5m", TradePair.NEARUSDT);
-
+        wbService.getOrders();
     }
 
 }

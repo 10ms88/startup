@@ -11,8 +11,8 @@
         <property name="serverSelector" ref="cuba_ServerSelector"/>
         <property name="remoteServices">
             <map>
-                <entry key="st_WalletService" value="com.company.startup.core.service.WalletService"/>
-                <entry key="startup_TradeService" value="com.company.startup.core.service.TradeService"/>
+<!--                <entry key="st_WalletService" value="com.company.startup.core.service.WalletService"/>-->
+<!--                <entry key="startup_TradeService" value="com.company.startup.core.service.TradeService"/>-->
             </map>
         </property>
     </bean>
