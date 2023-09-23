@@ -26,10 +26,10 @@ public class WbServiceBean implements WbService {
 
 
     @Override
-    public String getStatistic() {
-        HttpResponse<JsonNode> response = getStatFromWb();
+    public String getStatistic(boolean isAll) {
+        HttpResponse<JsonNode> response = getStatFromWb(isAll);
         sum = HistorySummation.sumHistory(response.getBody().toString());
-        return generateMessage (sum);
+        return generateMessage(sum);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class WbServiceBean implements WbService {
 
                     boolean cancel = jsonObject.getBoolean("isCancel");
 
-                 //   String orderType = jsonObject.getString("orderType");
+                    //   String orderType = jsonObject.getString("orderType");
 
                     String isCancel = cancel ? " (oтменен)" : "";
 
@@ -136,9 +136,14 @@ public class WbServiceBean implements WbService {
         }
     }
 
-    private HttpResponse<JsonNode> getStatFromWb() {
+    private HttpResponse<JsonNode> getStatFromWb(boolean isAll) {
 
         HistoryWbRequest request = new HistoryWbRequest();
+
+
+        if (isAll)            request.period.begin = request.period.end;
+
+
         try {
             return Unirest.post("https://suppliers-api.wb.ru/content/v1/analytics/nm-report/grouped/history")
                     .header("accept", "application/json")

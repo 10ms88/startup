@@ -59,6 +59,7 @@ public class TelegramBotBean extends TelegramLongPollingBot {
     private static String STAT = "/getStat";
     private static String ORDERS = "/getOrders";
     private static String STOCKS = "/getStocks";
+    private static String STAT_TODAY = "/getStatToday";
 
 
     @PostConstruct
@@ -106,11 +107,15 @@ public class TelegramBotBean extends TelegramLongPollingBot {
                     return;
                 }
                 if (STAT.equals(command)) {
-                    sendMessage(getWbStat(), message.getChatId());
+                    sendMessage(wbService.getStatistic(false), message.getChatId());
+                    return;
+                }
+                if (STAT_TODAY.equals(command)) {
+                    sendMessage(wbService.getStatistic(true), message.getChatId());
                     return;
                 }
                 if (ORDERS.equals(command)) {
-                    sendMessage(getOrders(), message.getChatId());
+                    sendMessage(wbService.getOrders(), message.getChatId());
                     return;
                 }
                 if (STOCKS.equals(command)) {
@@ -121,24 +126,14 @@ public class TelegramBotBean extends TelegramLongPollingBot {
         }
 
         if (message.hasText()) {
-            try {
-                sendMessage(getText(message, false), message.getChatId());
-            } catch (Exception e) {
-                log.error("TelegramBotBean.handleMessage error: " + e.getMessage());
-                sendMessage("Некорректно введены данные, доступные команды\n"
-                                + START + "\n" + STAT + "\n" + ORDERS + "\n" + STOCKS
-                        , message.getChatId());
-            }
+
+            sendMessage("Некорректно введены данные, доступные команды\n"
+                            + STAT_TODAY + "\n" + STAT + "\n" + ORDERS + "\n" + STOCKS
+                    , message.getChatId());
+
         }
     }
 
-    private String getOrders() {
-        return wbService.getOrders();
-    }
-
-    private String getWbStat() {
-        return wbService.getStatistic();
-    }
 
     private String getText(Message message, boolean isCommand) {
         if (isCommand) return SUCCESS_MESSAGE;

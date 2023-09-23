@@ -21,11 +21,11 @@ public class HistoryWbRequest {
         brandNames.add("SMISS");
         return new GsonBuilder().create().toJson(this);
     }
-}
 
 
-class Period {
-    public String begin = "2023-09-01";
-    public String end = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
+    public static class Period {
+        public String begin = "2023-09-01";
+        public String end = (new SimpleDateFormat("yyyy-MM-dd")).format(new Date());
 
+    }
 }

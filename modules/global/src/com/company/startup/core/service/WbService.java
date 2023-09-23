@@ -8,7 +8,7 @@ public interface WbService {
 
     String STANDARD_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NJRCI6ImMzMjZhMjFiLThmZGEtNDQzYy1iMzZjLTIxNmE4NGRlZDkzMCJ9.vxenbG0QnkSvNm8oEyQPtA-QKaPIdB8il1tym3CAfxs";
 
-    String getStatistic();
+    String getStatistic(boolean iaAll);
 
     String getOrders();
 
