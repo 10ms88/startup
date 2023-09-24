@@ -103,22 +103,27 @@ public class TelegramBotBean extends TelegramLongPollingBot {
                 String command = message.getText()
                         .substring(commandEntity.get().getOffset(), commandEntity.get().getLength());
                 if (START.equals(command)) {
+                    log.info(START);
                     sendMessage(getText(message, true), message.getChatId());
                     return;
                 }
                 if (STAT.equals(command)) {
+                    log.info(STAT);
                     sendMessage(wbService.getStatistic(false), message.getChatId());
                     return;
                 }
                 if (STAT_TODAY.equals(command)) {
+                    log.info(STAT_TODAY);
                     sendMessage(wbService.getStatistic(true), message.getChatId());
                     return;
                 }
                 if (ORDERS.equals(command)) {
+                    log.info(ORDERS);
                     sendMessage(wbService.getOrders(), message.getChatId());
                     return;
                 }
                 if (STOCKS.equals(command)) {
+                    log.info(STOCKS);
                     sendMessage(wbService.getStocks(), message.getChatId());
                     return;
                 }
